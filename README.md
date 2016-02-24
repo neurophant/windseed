@@ -68,19 +68,15 @@ Ubuntu 14.10, PostgreSQL 9.3, Python 3.5+, nginx, Supervisor
 
 # Install Python 3.5+
 
-sudo add-apt-repository ppa:fkrull/deadsnakes
-
-sudo apt-get update
-
+sudo add-apt-repository ppa:fkrull/deadsnakes__
+sudo apt-get update__
 sudo apt-get install python3.5 python3.5-venv python3.5-dev
 
 
 # Setup environment and packages
 
-pyvenv-3.5 .env
-
-source .env/bin/activate
-
+pyvenv-3.5 .env 
+source .env/bin/activate 
 pip install -r requirements.txt
 
 
