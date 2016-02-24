@@ -12,7 +12,7 @@ Ubuntu 14.10, PostgreSQL 9.3, Python 3.5+, nginx, Supervisor
 
 # Structure
 
-backups/ - folder for pg_dump
+- backups/ - folder for pg_dump
 
 - conf/ - config files for nginx/supervisor for dev and prod:
   - dev-nginx.conf - nginx config for development
@@ -31,39 +31,39 @@ backups/ - folder for pg_dump
   - tests.sh - run tests
   - windseed.sh - run application
 
-static/ - project static files, mainly Bootstrap 3, robots.txt, admin styles
+- static/ - project static files, mainly Bootstrap 3, robots.txt, admin styles
 
-windseed/ - windseed module:
-  admin/ - admin application:
-    auth.py - auth decorators and login/logout handlers
-    dashboard.py - dashboard handler
-    handler.py - base admin handler derived from base handler
-    records.py - records list and CRUD handlers
-  base/ - base classes:
-    handler.py - base handler class
-    model.py - base model class
-    test.py - base test class
-  models/ - project models
-    record.py - record db model
-    user.py - user db model
-  settings/ - project settings
-    db.py - postgresql database pool
-    env.py - environment variables from env.sh and paths
-    urls.py - project urls
-  templates/ - project templates:
-    admin/ - admin application templates
-    web/ - web application templates
-  tests/ - tests:
-    models/ - tests for models
-  utils/ - utilities:
-    superuser.py - create superuser
-    tables.py - create tables
-  web/ - web application:
-    handler.py - base web handler derived from base handler
-    records.py - records list handler
-    sitemap.py - sitemap handler
+- windseed/ - windseed module:
+  - admin/ - admin application:
+    - auth.py - auth decorators and login/logout handlers
+    - dashboard.py - dashboard handler
+    - handler.py - base admin handler derived from base handler
+    - records.py - records list and CRUD handlers
+  - base/ - base classes:
+    - handler.py - base handler class
+    - model.py - base model class
+    - test.py - base test class
+  - models/ - project models
+    - record.py - record db model
+    - user.py - user db model
+  - settings/ - project settings
+    - db.py - postgresql database pool
+    - env.py - environment variables from env.sh and paths
+    - urls.py - project urls
+  - templates/ - project templates:
+    - admin/ - admin application templates
+    - web/ - web application templates
+  - tests/ - tests:
+    - models/ - tests for models
+  - utils/ - utilities:
+    - superuser.py - create superuser
+    - tables.py - create tables
+  - web/ - web application:
+    - handler.py - base web handler derived from base handler
+    - records.py - records list handler
+    - sitemap.py - sitemap handler
 
-windseed.py - Windseed Tornado application
+- windseed.py - Windseed Tornado application
 
 
 # Install Python 3.5+
