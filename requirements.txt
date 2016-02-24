@@ -1,0 +1,6 @@
+oauthlib==1.0.3
+peewee==2.8.0
+psycopg2==2.6.1
+requests==2.9.1
+requests-oauthlib==0.6.0
+tornado==4.2.1

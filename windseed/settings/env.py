@@ -1,0 +1,31 @@
+import os
+
+
+BASE_PATH = os.path.join(os.path.dirname(__file__), '../../')
+
+STATIC_PATH = os.path.join(BASE_PATH, 'static')
+TEMPLATE_PATH = os.path.join(BASE_PATH, 'windseed', 'templates')
+
+DOMAIN = os.environ['WINDSEED_DOMAIN']
+
+SUPERUSER_EMAIL = os.environ['WINDSEED_SUPERUSER_EMAIL']
+SUPERUSER_PASSWORD = os.environ['WINDSEED_SUPERUSER_PASSWORD']
+
+COOKIE_SECRET = os.environ['WINDSEED_COOKIE_SECRET']
+XSRF_COOKIES = True
+DEBUG = True
+AUTORELOAD = True
+
+DBNAME = os.environ['WINDSEED_DBNAME']
+MAX_CONNECTIONS = int(os.environ['WINDSEED_MAX_CONNECTIONS'])
+STALE_TIMEOUT = int(os.environ['WINDSEED_STALE_TIMEOUT'])
+USER = os.environ['WINDSEED_USER']
+PASSWORD = os.environ['WINDSEED_PASSWORD']
+HOST = os.environ['WINDSEED_HOST']
+PORT = os.environ['WINDSEED_PORT']
+
+RELATED_ITEMS_PER_PAGE = int(os.environ['WINDSEED_RELATED_ITEMS_PER_PAGE'])
+ADMIN_ITEMS_PER_PAGE = int(os.environ['WINDSEED_ADMIN_ITEMS_PER_PAGE'])
+
+RECORDS_PER_PAGE = int(os.environ['WINDSEED_RECORDS_PER_PAGE'])
+SITEMAP_PER_PAGE = int(os.environ['WINDSEED_SITEMAP_PER_PAGE'])
