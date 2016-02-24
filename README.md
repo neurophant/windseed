@@ -33,7 +33,7 @@ Ubuntu 14.10, PostgreSQL 9.3, Python 3.5+, nginx, Supervisor
 
 - static/ - project static files, mainly Bootstrap 3, robots.txt, admin styles
 
-- windseed/ - windseed module:
+- windseed/ - windseed package:
   - admin/ - admin application:
     - auth.py - auth decorators and login/logout handlers
     - dashboard.py - dashboard handler
@@ -68,50 +68,50 @@ Ubuntu 14.10, PostgreSQL 9.3, Python 3.5+, nginx, Supervisor
 
 # Install Python 3.5+
 
-sudo add-apt-repository ppa:fkrull/deadsnakes
-sudo apt-get update
+sudo add-apt-repository ppa:fkrull/deadsnakes 
+sudo apt-get update 
 sudo apt-get install python3.5 python3.5-venv python3.5-dev
 
 
 # Setup environment and packages
 
-pyvenv-3.5 .env
-source .env/bin/activate
+pyvenv-3.5 .env 
+source .env/bin/activate 
 pip install -r requirements.txt
 
 
 # Generate cookie secret
 
-openssl rand -base64 40
+openssl rand -base64 40 
 and put it to env.sh
 
 
 # Run
 
-bash scripts/tables.sh - create db and tables
-bash scripts/superuser.sh - create superuser
-bash scripts/tests.sh - run tests
-bash scripts/windseed.sh - run project
+bash scripts/tables.sh - create db and tables 
+bash scripts/superuser.sh - create superuser 
+bash scripts/tests.sh - run tests 
+bash scripts/windseed.sh - run project 
 
 
 # Nginx
 
-sudo apt-get install nginx
-sudo cp conf/prod-nginx.conf /etc/nginx/nginx.conf
+sudo apt-get install nginx 
+sudo cp conf/prod-nginx.conf /etc/nginx/nginx.conf 
 sudo service nginx restart
 
 
 # Nginx file limits
 
-/etc/security/limits.conf:
-  soft nofile 16384
-  hard nofile 16384
+/etc/security/limits.conf: 
+- soft nofile 16384
+- hard nofile 16384
 
-/etc/sysctl.conf:
-  fs.file-max = 16384
+/etc/sysctl.conf: 
+- fs.file-max = 16384
 
-/etc/pam.d/common-session:
-  session required pam_limits.so
+/etc/pam.d/common-session: 
+- session required pam_limits.so
 
 
 # SSL certificate
@@ -121,12 +121,12 @@ sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout windseed.key -o
 
 # Supervisor
 
-sudo apt-get install supervisor
-pgrep -fl supervisor
-sudo service supervisor start
-sudo cp conf/supervisord.conf /etc/supervisor/supervisord.conf
-sudo supervisord -c conf/supervisord.conf
-sudo service supervisor restart
+sudo apt-get install supervisor 
+pgrep -fl supervisor 
+sudo service supervisor start 
+sudo cp conf/supervisord.conf /etc/supervisor/supervisord.conf 
+sudo supervisord -c conf/supervisord.conf 
+sudo service supervisor restart 
 
-sudo unlink /tmp/supervisor.sock
+sudo unlink /tmp/supervisor.sock 
 kill related processes
