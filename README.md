@@ -14,22 +14,22 @@ Ubuntu 14.10, PostgreSQL 9.3, Python 3.5+, nginx, Supervisor
 
 backups/ - folder for pg_dump
 
-conf/ - config files for nginx/supervisor for dev and prod:
-  dev-nginx.conf - nginx config for development
-  dev-supervisord.conf - supervisor config for development (just to test
-                         everything works)
-  prod-nginx.conf - nginx production config
-  prod-supervisord.conf - supervisor config for production
+- conf/ - config files for nginx/supervisor for dev and prod:
+  - dev-nginx.conf - nginx config for development
+  - dev-supervisord.conf - supervisor config for development (just to test
+                           everything works)
+  - prod-nginx.conf - nginx production config
+  - prod-supervisord.conf - supervisor config for production
 
-scripts/ - various bash scripts including project settings within environment
-           variables:
-  backup.sh - create pg_dump in backups folder
-  env.sh - contains all environment variables for project
-  superuser.sh - create superuser
-  supervisor.sh - script for supervisor
-  tables.sh - drop database, crate database and create db tables
-  tests.sh - run tests
-  windseed.sh - run application
+- scripts/ - various bash scripts including project settings within environment
+             variables:
+  - backup.sh - create pg_dump in backups folder
+  - env.sh - contains all environment variables for project
+  - superuser.sh - create superuser
+  - supervisor.sh - script for supervisor
+  - tables.sh - drop database, crate database and create db tables
+  - tests.sh - run tests
+  - windseed.sh - run application
 
 static/ - project static files, mainly Bootstrap 3, robots.txt, admin styles
 
