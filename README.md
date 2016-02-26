@@ -53,7 +53,7 @@ Ubuntu 14.10, PostgreSQL 9.3, Python 3.5+, nginx, Supervisor
     - **superuser.py** - create superuser
     - **tables.py** - create tables
 
-- windseed.py - Windseed Tornado application
+- **windseed.py** - Windseed Tornado application
 
 
 ## Install Python 3.5+
