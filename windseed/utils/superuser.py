@@ -1,28 +1,29 @@
 import tornado.gen
 import tornado.ioloop
 
-from windseed import settings, models
+from windseed.settings import env, db
+from windseed.apps.admin.models import User
 
 
 @tornado.gen.coroutine
 def main():
-    settings.db.pool.connect()
+    db.pool.connect()
 
-    user = models.User.create(
+    user = User.create(
         active=True,
         superuser=True,
-        email=settings.env.SUPERUSER_EMAIL,
-        password=settings.env.SUPERUSER_PASSWORD)
+        email=env.SUPERUSER_EMAIL,
+        password=env.SUPERUSER_PASSWORD)
 
     if not user:
         print(None)
         return
 
     print(user.uid, user.uts, user.active, user.superuser, user.email,
-          user.check_password(password=settings.env.SUPERUSER_PASSWORD))
+          user.check_password(password=env.SUPERUSER_PASSWORD))
 
-    if not settings.db.pool.is_closed():
-        settings.db.pool.close()
+    if not db.pool.is_closed():
+        db.pool.close()
 
     return
 

@@ -1,0 +1,94 @@
+{% from windseed.apps.admin import urls %}
+
+
+<div id="record-list" class="container">
+    <div class="row">
+        <div class="col-xs-12 text-center">
+            <h1>Records</h1>
+            <h4>{{ count }}/{{ page_count }}</h4>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-1 text-left"><strong>Datetime</strong></div>
+        <div class="col-xs-1 text-left"><strong>Active</strong></div>
+        <div class="col-xs-3 text-left"><strong>Name</strong></div>
+        <div class="col-xs-5 text-left"><strong>Description</strong></div>
+        <div class="col-xs-1 text-left"></div>
+        <div class="col-xs-1 text-left"></div>
+    </div>
+    <div class="row">
+        <form id="record" class="element" action="javascript://" method="POST">
+            {% module xsrf_form_html() %}
+            <div class="col-xs-offset-1 col-xs-1">
+                <div class="form-group">
+                    <input name="active" type="checkbox" checked>
+                </div>
+            </div>
+            <div class="col-xs-3">
+                <div class="form-group">
+                    <input name="name" type="text" class="form-control" placeholder="Name">
+                </div>
+            </div>
+            <div class="col-xs-5">
+                <textarea name="description" class="form-control rowtext"></textarea>
+            </div>
+            <div class="col-xs-2">
+                <div class="form-group text-center">
+                    <button name="create" type="submit" class="btn btn-default btn-block" onclick="createRecord();">Add</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    {% for record in records %}
+        <form id="record-{{ record.uid }}" class="element" action="javascript://" method="POST">
+            <div class="row">
+                {% module xsrf_form_html() %}
+                <input name="uid" type="hidden" value="{{ record.uid }}">
+                <div class="col-xs-1">{{ record.uts.strftime('%Y-%m-%d %H:%M:%S') }}</div>
+                <div class="col-xs-1">
+                    <div class="form-group">
+                        <input name="active" type="checkbox" {% if record.active %}checked{% end %}>
+                    </div>
+                </div>
+                <div class="col-xs-3">
+                    <div class="form-group">
+                        <input name="name" type="text" class="form-control" placeholder="Name" value="{{ record.name }}">
+                    </div>
+                </div>
+                <div class="col-xs-5">
+                    <textarea name="description" class="form-control rowtext">{% if record.description %}{{ record.description }}{% end %}</textarea>
+                </div>
+                <div class="col-xs-1">
+                    <div class="form-group text-center">
+                        <button name="update" type="submit" class="btn btn-default btn-block" onclick="updateRecord({{ record.uid }});">Update</button>
+                    </div>
+                </div>
+                <div class="col-xs-1">
+                    <div class="form-group text-center">
+                        <button name="delete" type="submit" class="btn btn-default btn-block" onclick="deleteRecord({{ record.uid }});">Delete</button>
+                    </div>                        
+                </div>
+            </div>
+        </form>
+    {% end %}
+    {% if prev_page or next_page %}               
+        <div class="row">
+            <div class="col-xs-12 text-center">
+                <nav>
+                    <ul class="pager">
+                        {% if prev_page %}
+                            <li class="previous"><a href="{{ urls.records }}?page={{ prev_page }}"><span aria-hidden="true">&larr;</span> Previous</a></li>
+                        {% else %}
+                            <li class="previous disabled"><a href="#"><span aria-hidden="true">&larr;</span> Previous</a></li>
+                        {% end %}
+                        {% if next_page %}
+                            <li class="next"><a href="{{ urls.records }}?page={{ next_page }}">Next <span aria-hidden="true">&rarr;</span></a></li>
+                        {% else %}
+                            <li class="next disabled"><a href="#">Next <span aria-hidden="true">&rarr;</span></a></li>
+                        {% end %}
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    {% end %}
+</div>

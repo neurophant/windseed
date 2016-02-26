@@ -1,6 +1,6 @@
 import tornado.web
 
-from windseed import settings
+from windseed.settings import db
 
 
 class Handler(tornado.web.RequestHandler):
@@ -29,7 +29,7 @@ class Handler(tornado.web.RequestHandler):
         """
         Prepare db connection pool
         """
-        settings.db.pool.connect()
+        db.pool.connect()
 
         return super().prepare()
 
@@ -37,8 +37,8 @@ class Handler(tornado.web.RequestHandler):
         """
         Close db connection pool
         """
-        if not settings.db.pool.is_closed():
-            settings.db.pool.close()
+        if not db.pool.is_closed():
+            db.pool.close()
 
         return super().on_finish()
 

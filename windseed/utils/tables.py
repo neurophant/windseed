@@ -1,22 +1,24 @@
 import tornado.gen
 import tornado.ioloop
 
-from windseed import settings, models
+from windseed.settings import db
+from windseed.apps.admin.models import User
+from windseed.apps.web.models import Record
 
 
 @tornado.gen.coroutine
 def main():
     tables = [
-        models.User,
-        models.Record, ]
+        User,
+        Record, ]
 
-    settings.db.pool.connect()
+    db.pool.connect()
 
-    settings.db.pool.drop_tables(tables, safe=True, cascade=True)
-    settings.db.pool.create_tables(tables, safe=True)
+    db.pool.drop_tables(tables, safe=True, cascade=True)
+    db.pool.create_tables(tables, safe=True)
 
-    if not settings.db.pool.is_closed():
-        settings.db.pool.close()
+    if not db.pool.is_closed():
+        db.pool.close()
 
     return
 

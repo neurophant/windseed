@@ -1,9 +1,5 @@
-# Admin URLs
-admin_login = r'/admin/login/'
-admin_logout = r'/admin/logout/'
-admin_dashboard = r'/admin/'
-admin_records = r'/admin/records/'
+from windseed.apps.admin.urls import routes as admin_routes
+from windseed.apps.web.urls import routes as web_routes
 
-# Web URLs
-web_records = r'/'
-web_sitemap = r'/sitemap/'
+
+routes = admin_routes + web_routes

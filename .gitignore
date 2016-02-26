@@ -1,6 +1,3 @@
 *.py[co]
 .env
 __pycache__
-backups/*
-!backups/.gitemtpy
-#scripts/env.sh
