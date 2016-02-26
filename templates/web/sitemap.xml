@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+{% from windseed.settings import env %}
+{% from windseed.apps.web import urls %}
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <url>
+        <loc>http://{{ env.DOMAIN }}{{ urls.records }}</loc>
+        <changefreq>daily</changefreq>
+        <priority>0.5</priority>
+    </url>
+    {% for record in records %}
+        <url>
+            <loc>http://{{ env.DOMAIN }}{{ urls.records }}?record={{ record.uid }}</loc>
+            <changefreq>weekly</changefreq>
+            <priority>0.5</priority>
+        </url>
+    {% end %}
+</urlset> 

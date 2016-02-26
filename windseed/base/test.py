@@ -1,6 +1,6 @@
 import tornado.testing
 
-from windseed import settings
+from windseed.settings import db
 
 
 class Test(tornado.testing.AsyncTestCase):
@@ -11,7 +11,7 @@ class Test(tornado.testing.AsyncTestCase):
         """
         Prepare db connection pool
         """
-        settings.db.pool.connect()
+        db.pool.connect()
 
         super().setUp()
 
@@ -19,7 +19,7 @@ class Test(tornado.testing.AsyncTestCase):
         """
         Close db connection pool
         """
-        if not settings.db.pool.is_closed():
-            settings.db.pool.close()
+        if not db.pool.is_closed():
+            db.pool.close()
 
         super().tearDown()

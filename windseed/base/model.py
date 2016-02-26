@@ -2,7 +2,7 @@ import datetime
 
 import peewee
 
-from windseed import settings
+from windseed.settings import db
 
 
 class Model(peewee.Model):
@@ -15,5 +15,5 @@ class Model(peewee.Model):
     uts = peewee.DateTimeField(default=datetime.datetime.now, index=True)
 
     class Meta:
-        database = settings.db.pool
+        database = db.pool
         order_by = ('-uts', )

@@ -4,7 +4,7 @@ import os
 BASE_PATH = os.path.join(os.path.dirname(__file__), '../../')
 
 STATIC_PATH = os.path.join(BASE_PATH, 'static')
-TEMPLATE_PATH = os.path.join(BASE_PATH, 'windseed', 'templates')
+TEMPLATE_PATH = os.path.join(BASE_PATH, 'templates')
 
 DOMAIN = os.environ['WINDSEED_DOMAIN']
 

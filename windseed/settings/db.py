@@ -1,13 +1,13 @@
 from playhouse.pool import PooledPostgresqlDatabase
 
-from windseed import settings
+from windseed.settings import env
 
 
 pool = PooledPostgresqlDatabase(
-    settings.env.DBNAME,
-    max_connections=settings.env.MAX_CONNECTIONS,
-    stale_timeout=settings.env.STALE_TIMEOUT,
-    user=settings.env.USER,
-    password=settings.env.PASSWORD,
-    host=settings.env.HOST,
-    port=settings.env.PORT)
+    env.DBNAME,
+    max_connections=env.MAX_CONNECTIONS,
+    stale_timeout=env.STALE_TIMEOUT,
+    user=env.USER,
+    password=env.PASSWORD,
+    host=env.HOST,
+    port=env.PORT)
