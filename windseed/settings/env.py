@@ -1,31 +1,47 @@
-import os
+"""This module contains base constants, that needed for windseed`s
+functionality. In other words, its a project-wide settings.
 
+It takes values from environment variables, so you must define them.
+"""
 
-BASE_PATH = os.path.join(os.path.dirname(__file__), '../../')
+from os import path, getenv
 
-STATIC_PATH = os.path.join(BASE_PATH, 'static')
-TEMPLATE_PATH = os.path.join(BASE_PATH, 'templates')
+# Main
 
-DOMAIN = os.environ['WINDSEED_DOMAIN']
+DEBUG = getenv('DEBUG', True)
+AUTORELOAD = getenv('AUTORELOAD', True)
 
-SUPERUSER_EMAIL = os.environ['WINDSEED_SUPERUSER_EMAIL']
-SUPERUSER_PASSWORD = os.environ['WINDSEED_SUPERUSER_PASSWORD']
+# Paths
 
-COOKIE_SECRET = os.environ['WINDSEED_COOKIE_SECRET']
-XSRF_COOKIES = True
-DEBUG = True
-AUTORELOAD = True
+BASE_PATH = path.join(path.dirname(__file__), '../../')
+STATIC_PATH = path.join(BASE_PATH, 'static')
+TEMPLATE_PATH = path.join(BASE_PATH, 'templates')
 
-DBNAME = os.environ['WINDSEED_DBNAME']
-MAX_CONNECTIONS = int(os.environ['WINDSEED_MAX_CONNECTIONS'])
-STALE_TIMEOUT = int(os.environ['WINDSEED_STALE_TIMEOUT'])
-USER = os.environ['WINDSEED_USER']
-PASSWORD = os.environ['WINDSEED_PASSWORD']
-HOST = os.environ['WINDSEED_HOST']
-PORT = os.environ['WINDSEED_PORT']
+# Host & User
 
-RELATED_ITEMS_PER_PAGE = int(os.environ['WINDSEED_RELATED_ITEMS_PER_PAGE'])
-ADMIN_ITEMS_PER_PAGE = int(os.environ['WINDSEED_ADMIN_ITEMS_PER_PAGE'])
+DOMAIN = getenv('WINDSEED_DOMAIN')
+SUPERUSER_EMAIL = getenv('WINDSEED_SUPERUSER_EMAIL')
+SUPERUSER_PASSWORD = getenv('WINDSEED_SUPERUSER_PASSWORD')
 
-RECORDS_PER_PAGE = int(os.environ['WINDSEED_RECORDS_PER_PAGE'])
-SITEMAP_PER_PAGE = int(os.environ['WINDSEED_SITEMAP_PER_PAGE'])
+# Cookies
+
+COOKIE_SECRET = getenv('WINDSEED_COOKIE_SECRET')  # secret key for secret cookie
+XSRF_COOKIES = getenv('XSRF_COOKIES', True)
+
+# DataBase
+
+DBNAME = getenv('WINDSEED_DBNAME')
+MAX_CONNECTIONS = int(getenv('WINDSEED_MAX_CONNECTIONS', 8))
+STALE_TIMEOUT = int(getenv('WINDSEED_STALE_TIMEOUT', 30))
+USER = getenv('WINDSEED_USER')
+PASSWORD = getenv('WINDSEED_PASSWORD')
+HOST = getenv('WINDSEED_HOST', 'localhost')
+PORT = getenv('WINDSEED_PORT', 5432)
+
+# Items per page
+
+RELATED_ITEMS_PER_PAGE = int(getenv('WINDSEED_RELATED_ITEMS_PER_PAGE', 10))
+ADMIN_ITEMS_PER_PAGE = int(getenv('WINDSEED_ADMIN_ITEMS_PER_PAGE', 10))
+
+RECORDS_PER_PAGE = int(getenv('WINDSEED_RECORDS_PER_PAGE', 10))
+SITEMAP_PER_PAGE = int(getenv('WINDSEED_SITEMAP_PER_PAGE', 10))
