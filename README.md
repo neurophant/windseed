@@ -158,7 +158,8 @@ kill related processes
 
 ## Performance
 
-- Intel® Pentium(R) CPU 2117U @ 1.80GHz × 2, 4 Gb RAM
+- Intel® Pentium(R) CPU 2117U @ 1.80GHz × 2
+- 4 Gb RAM
 - Ubuntu 14.10 x64
 
 - Django 1.9.4
@@ -189,8 +190,7 @@ bash bash/windseed.sh
 
 Time per request (mean)/Failed requests
 
-| Django + uWSGI (1 process) |
-| --- |
+Django + uWSGI (1 process)
 | | n=100 | n=1000 | n=10000 |
 | c=1 | 57ms/0 | 57ms/0 | 57ms/0 |
 | c=100 | 58ms/0 | 57ms/0 | 57ms/0 |
