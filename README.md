@@ -161,9 +161,9 @@ kill related processes
 - Intel® Pentium(R) CPU 2117U @ 1.80GHz × 2, 4 Gb RAM
 - Ubuntu 14.10 x64
 
-- Django
-- uwsgi
-- Tornado 
+- Django 1.9.4
+- uwsgi 2.0.12
+- Tornado 4.2.1
 
 Select 48 active records at 104 page of 105 pages total (10 000 records)
 
