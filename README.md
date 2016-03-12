@@ -163,22 +163,28 @@ kill related processes
 - Ubuntu 14.10 x64
 
 - Django 1.9.4
-- uwsgi 2.0.12
-- Tornado 4.2.1
+- uWSGI 2.0.12
 
-Select 48 active records at 104 page of 105 pages total (10 000 records)
+- Tornado 4.2.1
+- peewee 2.8.0
+
+Select 48 active records ordered by name at 104 page of 105 pages total 
+(10 000 records)
 
 Testing with ab (Apache Benchmark) with various number of requests (n) and
 concurrency level (c):
 ```
-ab -n <n> -c <c> http://localhost:8000/?page=104
+ab -n <n> -c <c> -r http://localhost:8000/?page=104
 ```
 
 Django:
 ```
 DEBUG=False
 
-uwsgi --module=djangotest.wsgi:application --env DJANGO_SETTINGS_MODULE=djangotest.settings --http=127.0.0.1:8000 --master --processes <process number>
+uwsgi --module=djangotest.wsgi:application
+      --env DJANGO_SETTINGS_MODULE=djangotest.settings
+      --http=127.0.0.1:8000
+      --processes <process number>
 ```
 
 Tornado:
@@ -188,12 +194,46 @@ DEBUG=False
 bash bash/windseed.sh
 ```
 
-Time per request (mean)/Failed requests
+Tornado (1 process) - time per request (mean)
 
-Django + uWSGI (1 process)
+| | n=100 | n=1000 | n=2000 | n=5000 | n=10000 |
+| --- | --- | --- | --- | --- | --- |
+| **c=1** | 42 ms | 42 ms | 42 ms | 42 ms | 42 ms |
+| **c=50** | 43 ms | 42 ms | 42 ms | 42 ms | 42 ms |
+| **c=100** | 43 ms | 42 ms | 42 ms | 42 ms | 42 ms |
+| **c=200** | - | 66 ms | 53 ms | 41 ms | 41 ms |
+| **c=300** | - | 58 ms | 54 ms | 46 ms | 40 ms |
+| **c=500** | - | 54 ms | 52 ms | 41 ms | 37 ms |
 
-| | n=100 | n=1000 | n=10000 |
-| --- | --- | --- | --- |
-| **c=1** | 57ms/0 | 57ms/0 | 57ms/0 |
-| **c=100** | 58ms/0 | 57ms/0 | 57ms/0 |
-| **c=500** | - | 64ms/313 | 60ms/3623 |
+Tornado (1 process) - failed requests
+
+| | n=100 | n=1000 | n=2000 | n=5000 | n=10000 |
+| --- | --- | --- | --- | --- | --- |
+| **c=1** | 0 | 0 | 0 | 0 | 0 |
+| **c=50** | 0 | 0 | 0 | 0 | 0 |
+| **c=100** | 0 | 0 | 0 | 0 | 0 |
+| **c=200** | - | 0 | 38 | 90 | 139 |
+| **c=300** | - | 26 | 151 | 242 | 388 |
+| **c=500** | - | 149 | 527 | 882 | 1233 |
+
+Django + uWSGI (1 process) - time per request (mean)
+
+| | n=100 | n=1000 | n=2000 | n=5000 | n=10000 |
+| --- | --- | --- | --- | --- | --- |
+| **c=1** | 58 ms | 57 ms | 57 ms | 57 ms | 56 ms |
+| **c=50** | 58 ms | 57 ms | 57 ms | 57 ms | 57 ms |
+| **c=100** | 58 ms | 57 ms | 57 ms | 57 ms | 57 ms |
+| **c=200** | - | 130 ms | 94 ms | 117 ms | 131 ms |
+| **c=300** | - | 83 ms | 67 ms | 95 ms | 80 ms |
+| **c=500** | - | 68 ms | 76 ms | 62 ms | 55 ms |
+
+Django + uWSGI (1 process) - failed requests
+
+| | n=100 | n=1000 | n=2000 | n=5000 | n=10000 |
+| --- | --- | --- | --- | --- | --- |
+| **c=1** | 0 | 0 | 0 | 0 | 0 |
+| **c=50** | 0 | 0 | 0 | 0 | 0 |
+| **c=100** | 0 | 0 | 0 | 0 | 0 |
+| **c=200** | - | 108 | 255 | 728 | 1745 |
+| **c=300** | - | 172 | 348 | 1372 | 2362 |
+| **c=500** | - | 304 | 672 | 1788 | 3284 |
