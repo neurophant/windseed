@@ -8,7 +8,7 @@ from os import path, getenv
 
 # Main
 
-DEBUG = getenv('DEBUG', True)
+DEBUG = getenv('DEBUG', False)
 AUTORELOAD = getenv('AUTORELOAD', True)
 
 # Paths

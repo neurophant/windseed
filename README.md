@@ -7,7 +7,11 @@ Extendable skeleton for developing web applications using [Tornado]
 
 ## Prerequisites
 
-Ubuntu 14.10, PostgreSQL 9.3, Python 3.5+, nginx, Supervisor
+- Ubuntu 14.10
+- PostgreSQL 9.3
+- Python 3.5+
+- nginx
+- Supervisor
 
 
 ## Structure
@@ -30,6 +34,8 @@ Ubuntu 14.10, PostgreSQL 9.3, Python 3.5+, nginx, Supervisor
                            everything works)
   - **prod-nginx.conf** - nginx production config
   - **prod-supervisord.conf** - supervisor config for production
+
+- **djangotest/** - similar project in Django to compare performance
 
 - **static/** - project static files, mainly Bootstrap 3, robots.txt, admin styles
 
@@ -108,14 +114,21 @@ sudo service nginx restart
 ## Ubuntu/nginx file limits
 
 **/etc/security/limits.conf**:
-- soft nofile 16384
-- hard nofile 16384
+```
+soft nofile 16384
+
+hard nofile 16384
+```
 
 **/etc/sysctl.conf**:
-- fs.file-max = 16384
+```
+fs.file-max = 16384
+```
 
 **/etc/pam.d/common-session**:
-- session required pam_limits.so
+```
+session required pam_limits.so
+```
 
 ## SSL certificate
 
@@ -142,3 +155,43 @@ sudo unlink /tmp/supervisor.sock
 
 kill related processes
 ```
+
+## Performance
+
+- Intel® Pentium(R) CPU 2117U @ 1.80GHz × 2, 4 Gb RAM
+- Ubuntu 14.10 x64
+
+- Django
+- uwsgi
+- Tornado 
+
+Select 48 active records at 104 page of 105 pages total (10 000 records)
+
+Testing with ab (Apache Benchmark) with various number of requests (n) and
+concurrency level (c):
+```
+ab -n <n> -c <c> http://localhost:8000/?page=104
+```
+
+Django:
+```
+DEBUG=False
+
+uwsgi --module=djangotest.wsgi:application --env DJANGO_SETTINGS_MODULE=djangotest.settings --http=127.0.0.1:8000 --master --processes <process number>
+```
+
+Tornado:
+```
+DEBUG=False
+
+bash bash/windseed.sh
+```
+
+Time per request (mean)/Failed requests
+
+| Django + uWSGI (1 process) |
+| --- |
+| | n=100 | n=1000 | n=10000 |
+| c=1 | 57ms/0 | 57ms/0 | 57ms/0 |
+| c=100 | 58ms/0 | 57ms/0 | 57ms/0 |
+| c=500 | - | 64ms/313 | 60ms/3623 |
