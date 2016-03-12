@@ -162,19 +162,23 @@ kill related processes
 - 4 Gb RAM
 - Ubuntu 14.10 x64
 
-- Django 1.9.4
-- uWSGI 2.0.12
-
 - Tornado 4.2.1
 - peewee 2.8.0
 
-Select 48 active records ordered by name at 104 page of 105 pages total 
-(10 000 records)
+- Django 1.9.4
+- uWSGI 2.0.12
 
-Testing with ab (Apache Benchmark) with various number of requests (n) and
-concurrency level (c):
+Testing with ab (Apache Benchmark) with various number of requests (n),
+concurrency level (c) and page (page):
 ```
-ab -n <n> -c <c> -r http://localhost:8000/?page=104
+ab -n <n> -c <c> -r http://localhost:8000/?page=<page>
+```
+
+Tornado:
+```
+DEBUG=False
+
+bash bash/windseed.sh
 ```
 
 Django:
@@ -187,12 +191,53 @@ uwsgi --module=djangotest.wsgi:application
       --processes <process number>
 ```
 
-Tornado:
-```
-DEBUG=False
+**Render page 1/105 (10 000 records total, 48 records per page)**
 
-bash bash/windseed.sh
-```
+Tornado (1 process) - time per request (mean)
+
+| | n=100 | n=1000 | n=2000 | n=5000 | n=10000 |
+| --- | --- | --- | --- | --- | --- |
+| **c=1** | 9 ms | 8 ms | 9 ms | 9 ms | 9 ms |
+| **c=50** | 8 ms | 8 ms | 9 ms | 8 ms | 9 ms |
+| **c=100** | 8 ms | 9 ms | 8 ms | 9 ms | 9 ms |
+| **c=200** | - | 14 ms | 14 ms | 11 ms | 11 ms |
+| **c=300** | - | 14 ms | 10 ms | 12 ms | 11 ms |
+| **c=500** | - | 15 ms | 14 ms | 12 ms | 14 ms |
+
+Tornado (1 process) - failed requests
+
+| | n=100 | n=1000 | n=2000 | n=5000 | n=10000 |
+| --- | --- | --- | --- | --- | --- |
+| **c=1** | 0 | 0 | 0 | 0 | 0 |
+| **c=50** | 0 | 0 | 0 | 0 | 0 |
+| **c=100** | 0 | 0 | 0 | 0 | 0 |
+| **c=200** | - | 0 | 0 | 0 | 43 |
+| **c=300** | - | 0 | 12 | 26 | 114 |
+| **c=500** | - | 0 | 126 | 343 | 424 |
+
+Django + uWSGI (1 process) - time per request (mean)
+
+| | n=100 | n=1000 | n=2000 | n=5000 | n=10000 |
+| --- | --- | --- | --- | --- | --- |
+| **c=1** | 25 ms | 25 ms | 24 ms | 23 ms | 24 ms |
+| **c=50** | 24 ms | 23 ms | 23 ms | 25 ms | 23 ms |
+| **c=100** | 23 ms | 24 ms | 24 ms | 23 ms | 23 ms |
+| **c=200** | - | 35 ms | 43 ms | 41 ms | 56 ms |
+| **c=300** | - | 91 ms | 34 ms | 47 ms | 40 ms |
+| **c=500** | - | 56 ms | 31 ms | 38 ms | 32 ms |
+
+Django + uWSGI (1 process) - failed requests
+
+| | n=100 | n=1000 | n=2000 | n=5000 | n=10000 |
+| --- | --- | --- | --- | --- | --- |
+| **c=1** | 0 | 0 | 0 | 0 | 0 |
+| **c=50** | 0 | 0 | 0 | 0 | 0 |
+| **c=100** | 0 | 0 | 0 | 0 | 0 |
+| **c=200** | - | 2 | 120 | 260 | 775 |
+| **c=300** | - | 94 | 197 | 662 | 1209 |
+| **c=500** | - | 65 | 312 | 869 | 2015 |
+
+**Render page 104/105 (10 000 records total, 48 records per page)**
 
 Tornado (1 process) - time per request (mean)
 

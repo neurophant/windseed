@@ -79,8 +79,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'djangotest',
-        'USER': 'windseed',
-        'PASSWORD': 'windseed',
+        'USER': 'djangotest',
+        'PASSWORD': 'djangotest',
         'HOST': 'localhost',
         'PORT': '5432',
     }
