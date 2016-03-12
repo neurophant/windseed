@@ -192,6 +192,7 @@ Time per request (mean)/Failed requests
 
 Django + uWSGI (1 process)
 
+| | | | |
 | --- | --- | --- | --- |
 | | n=100 | n=1000 | n=10000 |
 | c=1 | 57ms/0 | 57ms/0 | 57ms/0 |
