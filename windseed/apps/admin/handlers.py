@@ -3,13 +3,40 @@ import peewee
 import tornado.web
 import tornado.gen
 
-from windseed.settings import env, db, urls
+from windseed.settings import env, db
 from windseed.base import handler
+from windseed.apps.admin import urls
 from windseed.apps.admin.models import User
 from windseed.apps.web.models import Record
 
 
 class Handler(handler.Handler):
+    def get_current_user(self):
+        """
+        Current user
+
+        Do not use this if you have many requests within this
+        application since each request will hit DB, use redis to store
+        intermediate results
+        """
+        email = self.get_secure_cookie('user')
+
+        if email:
+            try:
+                user = User.get(User.email == email)
+            except User.DoesNotExist:
+                user = None
+
+            if user:
+                if user.active and user.superuser:
+                    return email
+                else:
+                    return None
+            else:
+                return None
+        else:
+            return None
+
     def write_error(self, status_code, **kwargs):
         self.render('admin/error.html', status_code=status_code)
 
@@ -19,8 +46,8 @@ def authenticated(func):
     Execute target function if authenticated, redirect to login page otherwise
     """
     def decorated(self, *args, **kwargs):
-        if not self.user:
-            self.redirect(urls.admin_login)
+        if not self.get_current_user():
+            self.redirect(urls.login)
         else:
             return func(self, *args, **kwargs)
 
@@ -33,8 +60,8 @@ def unauthenticated(func):
     otherwise
     """
     def decorated(self, *args, **kwargs):
-        if self.user:
-            self.redirect(urls.admin_dashboard)
+        if self.get_current_user():
+            self.redirect(urls.dashboard)
         else:
             return func(self, *args, **kwargs)
 
@@ -73,11 +100,11 @@ class LoginHandler(Handler):
             if user.active and user.superuser and \
                     user.check_password(password=password):
                 self.set_secure_cookie('user', user.email)
-                self.redirect(urls.admin_dashboard)
+                self.redirect(urls.dashboard)
             else:
-                self.redirect(urls.admin_login)
+                self.redirect(urls.login)
         else:
-            self.redirect(urls.admin_login)
+            self.redirect(urls.login)
 
 
 class LogoutHandler(Handler):
@@ -92,7 +119,7 @@ class LogoutHandler(Handler):
         Clear user authentication and redirect to login page
         """
         self.clear_cookie('user')
-        self.redirect(urls.admin_login)
+        self.redirect(urls.login)
 
 
 class DashboardHandler(Handler):
@@ -106,7 +133,7 @@ class DashboardHandler(Handler):
         """
         Render dashboard
         """
-        self.render('admin/dashboard.html', user=self.user)
+        self.render('admin/dashboard.html')
 
 
 class RecordsHandler(Handler):
@@ -174,7 +201,6 @@ class RecordsHandler(Handler):
         """
         self.render(
             'admin/records.html',
-            user=self.user,
             **self.get_page_context())
 
     @tornado.gen.coroutine

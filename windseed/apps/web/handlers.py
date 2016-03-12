@@ -4,7 +4,7 @@ import tornado.web
 import tornado.gen
 import tornado.escape
 
-from windseed.settings import env, db, urls
+from windseed.settings import env
 from windseed.base import handler
 from windseed.apps.web.models import Record
 

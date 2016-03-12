@@ -7,24 +7,6 @@ class Handler(tornado.web.RequestHandler):
     """
     Base request handler
     """
-    @property
-    def user(self):
-        """
-        Current user property
-        """
-        return self.get_current_user()
-
-    def get_current_user(self):
-        """
-        Current user
-        """
-        user_cookie = self.get_secure_cookie('user')
-
-        if user_cookie:
-            return user_cookie
-
-        return None
-
     def prepare(self):
         """
         Prepare db connection pool

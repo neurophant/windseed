@@ -1,1 +1,4 @@
-#env.sh
+# Uncomment line below to avoid including credentials and settings to git
+# repository
+
+# env.sh
