@@ -159,13 +159,17 @@ kill related processes
 ## Performance
 
 - Intel® Pentium(R) CPU 2117U @ 1.80GHz × 2
+
 - 4 Gb RAM
+
 - Ubuntu 14.10 x64
 
 - Tornado 4.2.1
+
 - peewee 2.8.0
 
 - Django 1.9.4
+
 - uWSGI 2.0.12
 
 Testing with ab (Apache Benchmark) with various number of requests (n),
@@ -237,6 +241,7 @@ Django + uWSGI (1 process) - failed requests
 | **c=300** | - | 94 | 197 | 662 | 1209 |
 | **c=500** | - | 65 | 312 | 869 | 2015 |
 
+<br/>
 **Render page 104/105 (10 000 records total, 48 records per page)**
 
 Tornado (1 process) - time per request (mean)
