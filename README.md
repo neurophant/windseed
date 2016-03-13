@@ -189,9 +189,10 @@ uwsgi --module=djangotest.wsgi:application
       --processes <process number>
 ```
 
-<br/>
+<br/><br/>
 **Render page 1/105 (10 000 records total, 48 records per page)**
 
+<br/>
 Tornado (1 process) - time per request (mean)
 
 | | n=100 | n=1000 | n=2000 | n=5000 | n=10000 |
@@ -203,6 +204,7 @@ Tornado (1 process) - time per request (mean)
 | **c=300** | - | 14 ms | 10 ms | 12 ms | 11 ms |
 | **c=500** | - | 15 ms | 14 ms | 12 ms | 14 ms |
 
+<br/>
 Tornado (1 process) - failed requests
 
 | | n=100 | n=1000 | n=2000 | n=5000 | n=10000 |
@@ -214,6 +216,7 @@ Tornado (1 process) - failed requests
 | **c=300** | - | 0 | 12 | 26 | 114 |
 | **c=500** | - | 0 | 126 | 343 | 424 |
 
+<br/>
 Django + uWSGI (1 process) - time per request (mean)
 
 | | n=100 | n=1000 | n=2000 | n=5000 | n=10000 |
@@ -225,6 +228,7 @@ Django + uWSGI (1 process) - time per request (mean)
 | **c=300** | - | 91 ms | 34 ms | 47 ms | 40 ms |
 | **c=500** | - | 56 ms | 31 ms | 38 ms | 32 ms |
 
+<br/>
 Django + uWSGI (1 process) - failed requests
 
 | | n=100 | n=1000 | n=2000 | n=5000 | n=10000 |
@@ -236,9 +240,10 @@ Django + uWSGI (1 process) - failed requests
 | **c=300** | - | 94 | 197 | 662 | 1209 |
 | **c=500** | - | 65 | 312 | 869 | 2015 |
 
-<br/>
+<br/><br/>
 **Render page 104/105 (10 000 records total, 48 records per page)**
 
+<br/>
 Tornado (1 process) - time per request (mean)
 
 | | n=100 | n=1000 | n=2000 | n=5000 | n=10000 |
@@ -250,6 +255,7 @@ Tornado (1 process) - time per request (mean)
 | **c=300** | - | 58 ms | 54 ms | 46 ms | 40 ms |
 | **c=500** | - | 54 ms | 52 ms | 41 ms | 37 ms |
 
+<br/>
 Tornado (1 process) - failed requests
 
 | | n=100 | n=1000 | n=2000 | n=5000 | n=10000 |
@@ -261,6 +267,7 @@ Tornado (1 process) - failed requests
 | **c=300** | - | 26 | 151 | 242 | 388 |
 | **c=500** | - | 149 | 527 | 882 | 1233 |
 
+<br/>
 Django + uWSGI (1 process) - time per request (mean)
 
 | | n=100 | n=1000 | n=2000 | n=5000 | n=10000 |
@@ -272,6 +279,7 @@ Django + uWSGI (1 process) - time per request (mean)
 | **c=300** | - | 83 ms | 67 ms | 95 ms | 80 ms |
 | **c=500** | - | 68 ms | 76 ms | 62 ms | 55 ms |
 
+<br/>
 Django + uWSGI (1 process) - failed requests
 
 | | n=100 | n=1000 | n=2000 | n=5000 | n=10000 |
