@@ -10,3 +10,13 @@ class Record(models.Model):
     class Meta:
         index_together = (
             ('active', 'name', ), )
+
+
+class RecordPage(models.Model):
+    record = models.ForeignKey(Record, on_delete=models.CASCADE, db_index=True,
+                               unique=True)
+    page = models.IntegerField(default=0, db_index=True)
+
+    class Meta:
+        unique_together = (('record', 'page', ), )
+        index_together = (('record', 'page', ), )
