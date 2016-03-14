@@ -19,3 +19,27 @@ class Record(Model):
     class Meta:
         indexes = (
             (('active', 'name', ), True, ), )
+
+
+class RecordPage(Model):
+    """
+    Records paginator db model:
+        record - record foreign key
+        page - page number
+    """
+    record = peewee.ForeignKeyField(
+        Record,
+        db_column='record',
+        to_field='uid',
+        related_name='record_records_pages',
+        on_delete='CASCADE',
+        index=True,
+        unique=True)
+    page = peewee.IntegerField(
+        default=0,
+        index=True,
+        constraints=[peewee.Check('page >= 0'), ])
+
+    class Meta:
+        indexes = ((('record', 'page', ), True, ), )
+        constraints = (peewee.SQL('UNIQUE (record, page)'), )

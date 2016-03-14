@@ -6,7 +6,7 @@ import tornado.escape
 
 from windseed.settings import env
 from windseed.base import handler
-from windseed.apps.web.models import Record
+from windseed.apps.web.models import Record, RecordPage
 
 
 class Handler(handler.Handler):
@@ -45,6 +45,7 @@ class RecordsHandler(Handler):
         prev_page, page, next_page = self.paging(page, page_count)
 
         try:
+            """
             records = Record\
                 .select()\
                 .where(Record.active == True)\
@@ -52,6 +53,17 @@ class RecordsHandler(Handler):
                 .paginate(
                     page,
                     paginate_by=per_page)
+            """
+            records = Record\
+                .select(
+                    Record,
+                    RecordPage)\
+                .where(
+                    RecordPage.page == page)\
+                .join(
+                    RecordPage,
+                    join_type=peewee.JOIN.INNER)\
+                .order_by(Record.name.asc())
         except peewee.IntegrityError:
             records = []
 
