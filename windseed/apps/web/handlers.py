@@ -31,11 +31,21 @@ class RecordsHandler(Handler):
         except ValueError:
             page = 1
 
+        records9 = Record\
+            .select(
+                Record,
+                peewee.SQL('1 AS search_order'))\
+            .where(
+                Record.active == True,
+                Record.name.contains('record 9'))
+        records = Record\
+            .select(
+                Record,
+                peewee.SQL('2 AS search_order'))\
+            .where(Record.active == True)
+
         try:
-            count = Record\
-                .select()\
-                .where(Record.active == True)\
-                .count()
+            count = records.count()
         except peewee.IntegrityError:
             count = 0
 
@@ -45,17 +55,15 @@ class RecordsHandler(Handler):
         prev_page, page, next_page = self.paging(page, page_count)
 
         try:
-            records = Record\
-                .select()\
-                .where(Record.active == True)\
-                .order_by(Record.name.asc())\
-                .paginate(
-                    page,
-                    paginate_by=per_page)
-        except peewee.IntegrityError:
-            records = []
+            records_ = (
+                records9 | (records-records9))\
+                .order_by(peewee.SQL('search_order, name'))\
+                .paginate(page, paginate_by=per_page)
 
-        return dict(records=records,
+        except peewee.IntegrityError:
+            records_ = []
+
+        return dict(records=records_,
                     page_count=page_count,
                     prev_page=prev_page,
                     page=page,
