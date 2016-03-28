@@ -3,14 +3,15 @@ import tornado.ioloop
 
 from windseed.settings import db
 from windseed.apps.admin.models import User
-from windseed.apps.web.models import Record
+from windseed.apps.web.models import Record, RecordPage
 
 
 @tornado.gen.coroutine
 def main():
     tables = [
         User,
-        Record, ]
+        Record,
+        RecordPage, ]
 
     db.pool.connect()
 
