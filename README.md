@@ -215,4 +215,4 @@ Windseed-Django
 | **t1, table, last page** | 25.02 ms | 23.73 ms | 24.35 ms | 24.59 ms | 24.59 ms | 24.93 ms | 25.13 ms | 24.39 ms | 24.36 ms | 24.52 ms |
 
 <br/>
-![t1, OFFSET, first page](/benchmarks/20160329064401.png?raw=true "t1, OFFSET, first page")
+![t1, OFFSET, first page](/charts/20160329064401.png?raw=true "t1, OFFSET, first page")
