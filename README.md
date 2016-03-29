@@ -160,77 +160,56 @@ kill related processes
 
 - Intel® Pentium(R) CPU 2117U @ 1.80GHz × 2
 - 4 Gb RAM
-- Ubuntu 14.10 x64
-- Tornado 4.2.1
-- peewee 2.8.0
 
-Testing with ab (Apache Benchmark) with various number of requests (n),
-concurrency level (c) and page (page):
+Testing with [wrk] (https://github.com/wg/wrk):
+
+- 10 000, 100 000, 1 000 000 records in table
+- 1 minute test with 1 minute timeout
+- 1 and 10 threads
+- From 10 to 100 connections with step of 10 connections
+- Pagination using OFFSET and pagination using pagination table
+- First and last page
+- Sorted by name
+- Compare Windseed and [Windseed-Django] (https://github.com/embali/windseed-django) 
+apps with similar functionality
+
+Start wrk
 ```
-ab -n <n> -c <c> -r http://localhost:8000/?page=<page>
+wrk -t1 -c10 -d1m --timeout 1m "http://localhost:8000/?page=1"
 ```
 
+Start Windseed
 ```
-DEBUG=False
-
 bash bash/windseed.sh
 ```
 
-<br/><br/>
-**Render page 1/105 (10 000 records total, 48 records per page)**
-
-<br/>
-Tornado (1 process) - time per request (mean)
-
-| | n=100 | n=1000 | n=2000 | n=5000 | n=10000 |
-| --- | --- | --- | --- | --- | --- |
-| **c=1** | 9 ms | 8 ms | 9 ms | 9 ms | 9 ms |
-| **c=50** | 8 ms | 8 ms | 9 ms | 8 ms | 9 ms |
-| **c=100** | 8 ms | 9 ms | 8 ms | 9 ms | 9 ms |
-| **c=200** | - | 14 ms | 14 ms | 11 ms | 11 ms |
-| **c=300** | - | 14 ms | 10 ms | 12 ms | 11 ms |
-| **c=500** | - | 15 ms | 14 ms | 12 ms | 14 ms |
-
-<br/>
-Tornado (1 process) - failed requests
-
-| | n=100 | n=1000 | n=2000 | n=5000 | n=10000 |
-| --- | --- | --- | --- | --- | --- |
-| **c=1** | 0 | 0 | 0 | 0 | 0 |
-| **c=50** | 0 | 0 | 0 | 0 | 0 |
-| **c=100** | 0 | 0 | 0 | 0 | 0 |
-| **c=200** | - | 0 | 0 | 0 | 43 |
-| **c=300** | - | 0 | 12 | 26 | 114 |
-| **c=500** | - | 0 | 126 | 343 | 424 |
-
+Start Windseed-Django
+```
+uwsgi --module=djangotest.wsgi:application
+      --env DJANGO_SETTINGS_MODULE=djangotest.settings
+      --http=127.0.0.1:8000
+      --processes 1
+```
 
 <br/><br/>
-**Render page 104/105 (10 000 records total, 48 records per page)**
+**100 000 records**
 
 <br/>
-Tornado (1 process) - time per request (mean)
+Windseed
 
-| | n=100 | n=1000 | n=2000 | n=5000 | n=10000 |
-| --- | --- | --- | --- | --- | --- |
-| **c=1** | 42 ms | 42 ms | 42 ms | 42 ms | 42 ms |
-| **c=50** | 43 ms | 42 ms | 42 ms | 42 ms | 42 ms |
-| **c=100** | 43 ms | 42 ms | 42 ms | 42 ms | 42 ms |
-| **c=200** | - | 66 ms | 53 ms | 41 ms | 41 ms |
-| **c=300** | - | 58 ms | 54 ms | 46 ms | 40 ms |
-| **c=500** | - | 54 ms | 52 ms | 41 ms | 37 ms |
+| | c10 | c20 | c30 | c40 | c50 | c60 | c70 | c80 | c90 | c100 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| **t1, OFFSET, first page** | 12.64 ms | 12.84 ms | 12.51 ms | 12.35 ms | 12.54 ms | 12.49 ms | 12.53 ms | 12.45 ms | 12.79 ms | 12.90 ms |
+| **t1, OFFSET, last page** | 340.91 ms | 348.84 ms | 379.75 ms | 400.00 ms | 447.76 ms | 483.87 ms | 495.87 ms | 545.45 ms | 588.24 ms | 600.00 ms |
+| **t1, table, first page** | 33.78 ms | 13.59 ms | 13.87 ms | 13.82 ms | 13.69 ms | 14.00 ms | 13.73 ms | 14.08 ms | 14.11 ms | 13.99 ms |
+| **t1, table, last page** | 14.55 ms | 14.34 ms | 14.11 ms | 14.87 ms | 14.19 ms | 15.03 ms | 15.80 ms | 14.49 ms | 15.67 ms | 15.97 ms |
 
 <br/>
-Tornado (1 process) - failed requests
+Windseed-Django
 
-| | n=100 | n=1000 | n=2000 | n=5000 | n=10000 |
-| --- | --- | --- | --- | --- | --- |
-| **c=1** | 0 | 0 | 0 | 0 | 0 |
-| **c=50** | 0 | 0 | 0 | 0 | 0 |
-| **c=100** | 0 | 0 | 0 | 0 | 0 |
-| **c=200** | - | 0 | 38 | 90 | 139 |
-| **c=300** | - | 26 | 151 | 242 | 388 |
-| **c=500** | - | 149 | 527 | 882 | 1233 |
-
-<br/>
-Refer to [Windseed-Django] (https://github.com/embali/windseed-django) to compare 
-with similar Django app benchmark
+| | c10 | c20 | c30 | c40 | c50 | c60 | c70 | c80 | c90 | c100 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| **t1, OFFSET, first page** | 33.92 ms | 33.67 ms | 33.50 ms | 32.95 ms | 34.05 ms | 33.90 ms | 33.78 ms | 33.94 ms | 34.05 ms | 35.84 ms |
+| **t1, OFFSET, last page** | 402.68 ms | 392.16 ms | 416.67 ms | 441.18 ms | 480.00 ms | 508.47 ms | 555.56 ms | 618.56 ms | 740.74 ms | 800.00 ms |
+| **t1, table, first page** | 60.98 ms | 23.93 ms | 24.86 ms | 24.84 ms | 23.97 ms | 24.92 ms | 24.58 ms | 25.06 ms | 26.64 ms | 24.74 ms |
+| **t1, table, last page** | 25.02 ms | 23.73 ms | 24.35 ms | 24.59 ms | 24.59 ms | 24.93 ms | 25.13 ms | 24.39 ms | 24.36 ms | 24.52 ms |
