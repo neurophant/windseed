@@ -167,10 +167,10 @@ Testing with [wrk] (https://github.com/wg/wrk):
 - 1 minute test with 1 minute timeout
 - 1 and 10 threads
 - From 10 to 100 connections with step of 10 connections
-- Pagination using OFFSET and pagination using pagination table
+- Pagination using SQL OFFSET and pagination using pagination table
 - First and last page
 - Sorted by name
-- Compare Windseed and [Windseed-Django] (https://github.com/embali/windseed-django) 
+- Compare Windseed and [Django] (https://github.com/embali/windseed-django) 
 apps with similar functionality
 
 Start wrk
@@ -183,13 +183,50 @@ Start Windseed
 bash bash/windseed.sh
 ```
 
-Start Windseed-Django
+Start Django
 ```
 uwsgi --module=djangotest.wsgi:application
       --env DJANGO_SETTINGS_MODULE=djangotest.settings
       --http=127.0.0.1:8000
       --processes 1
 ```
+
+<br/><br/>
+**10 000 records**
+
+<br/>
+Windseed
+
+| | c10 | c20 | c30 | c40 | c50 | c60 | c70 | c80 | c90 | c100 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| **t1, offset, first** | 4.35 | 4.21 | 4.26 | 4.15 | 4.29 | 4.36 | 4.38 | 4.18 | 4.49 | 4.38 |
+| **t1, offset, last** | 21.17 | 20.40 | 21.15 | 21.17 | 21.25 | 20.54 | 20.48 | 21.03 | 21.37 | 21.22 |
+| **t1, table, first** | 7.47 | 6.78 | 6.94 | 6.82 | 7.13 | 7.34 | 7.28 | 7.39 | 7.11 | 7.02 |
+| **t1, table, last** | 6.97 | 6.75 | 6.91 | 6.64 | 6.59 | 7.10 | 7.22 | 7.08 | 7.02 | 7.07 |
+| **t10, offset, first** | 4.44 | 4.07 | 3.99 | 4.19 | 4.10 | 4.05 | 4.28 | 4.27 | 4.26 | 3.95 |
+| **t10, offset, last** | 20.17 | 19.97 | 20.01 | 20.23 | 20.55 | 20.77 | 20.74 | 20.45 | 20.55 | 20.94 |
+| **t10, table, first** | 6.84 | 6.39 | 7.09 | 7.27 | 7.12 | 7.18 | 7.24 | 7.35 | 7.27 | 7.60 |
+| **t10, table, last** | 7.51 | 7.04 | 7.24 | 7.40 | 7.34 | 7.31 | 7.17 | 7.60 | 7.73 | 7.73 |
+
+<br/>
+Django
+
+| | c10 | c20 | c30 | c40 | c50 | c60 | c70 | c80 | c90 | c100 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| **t1, offset, first** | 17.80 | 17.38 | 18.01 | 18.10 | 18.18 | 18.03 | 18.33 | 18.80 | 17.96 | 18.11 |
+| **t1, offset, last** | 37.15 | 36.36 | 36.32 | 36.52 | 37.31 | 37.62 | 37.55 | 37.66 | 38.24 | 38.46 |
+| **t1, table, first** | 18.36 | 17.16 | 17.26 | 17.62 | 17.30 | 17.25 | 17.40 | 17.41 | 17.27 | 17.46 |
+| **t1, table, last** | 17.64 | 17.01 | 17.04 | 17.21 | 17.31 | 17.35 | 17.31 | 17.07 | 16.27 | 15.81 |
+| **t10, offset, first** | 16.49 | 16.47 | 15.96 | 16.23 | 16.11 | 16.10 | 16.44 | 16.23 | 16.34 | 16.69 |
+| **t10, offset, last** | 33.44 | 32.70 | 32.91 | 33.58 | 33.73 | 33.61 | 33.52 | 33.98 | 33.98 | 34.29 |
+| **t10, table, first** | 16.04 | 15.16 | 15.89 | 15.43 | 15.58 | 15.77 | 16.03 | 18.46 | 18.46 | 18.52 |
+| **t10, table, last** | 18.54 | 18.29 | 18.30 | 15.43 | 16.89 | 17.40 | 17.52 | 17.49 | 17.79 | 17.65 |
+
+<br/>
+![1 thread, offset pagination, first page](/charts/20160330115515.png?raw=true "1 thread, offset pagination, first page")
+
+<br/>
+![1 thread, offset pagination, last page](/charts/20160330120051.png?raw=true "1 thread, offset pagination, last page")
 
 <br/><br/>
 **100 000 records**
@@ -199,20 +236,59 @@ Windseed
 
 | | c10 | c20 | c30 | c40 | c50 | c60 | c70 | c80 | c90 | c100 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| **t1, OFFSET, first page** | 12.64 ms | 12.84 ms | 12.51 ms | 12.35 ms | 12.54 ms | 12.49 ms | 12.53 ms | 12.45 ms | 12.79 ms | 12.90 ms |
-| **t1, OFFSET, last page** | 340.91 ms | 348.84 ms | 379.75 ms | 400.00 ms | 447.76 ms | 483.87 ms | 495.87 ms | 545.45 ms | 588.24 ms | 600.00 ms |
-| **t1, table, first page** | 33.78 ms | 13.59 ms | 13.87 ms | 13.82 ms | 13.69 ms | 14.00 ms | 13.73 ms | 14.08 ms | 14.11 ms | 13.99 ms |
-| **t1, table, last page** | 14.55 ms | 14.34 ms | 14.11 ms | 14.87 ms | 14.19 ms | 15.03 ms | 15.80 ms | 14.49 ms | 15.67 ms | 15.97 ms |
+| **t1, offset, first** | 12.64  | 12.84  | 12.51  | 12.35  | 12.54  | 12.49  | 12.53  | 12.45  | 12.79  | 12.90  |
+| **t1, offset, last** | 340.91  | 348.84  | 379.75  | 400.00  | 447.76  | 483.87  | 495.87  | 545.45  | 588.24  | 600.00  |
+| **t1, table, first** | 33.78  | 13.59  | 13.87  | 13.82  | 13.69  | 14.00  | 13.73  | 14.08  | 14.11  | 13.99  |
+| **t1, table, last** | 14.55  | 14.34  | 14.11  | 14.87  | 14.19  | 15.03  | 15.80  | 14.49  | 15.67  | 15.97  |
+| **t10, offset, first** |  |  |  |  |  |  |  |  |  |  |
+| **t10, offset, last** |  |  |  |  |  |  |  |  |  |  |
+| **t10, table, first** |  |  |  |  |  |  |  |  |  |  |
+| **t10, table, last** |  |  |  |  |  |  |  |  |  |  |
 
 <br/>
-Windseed-Django
+Django
 
 | | c10 | c20 | c30 | c40 | c50 | c60 | c70 | c80 | c90 | c100 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| **t1, OFFSET, first page** | 33.92 ms | 33.67 ms | 33.50 ms | 32.95 ms | 34.05 ms | 33.90 ms | 33.78 ms | 33.94 ms | 34.05 ms | 35.84 ms |
-| **t1, OFFSET, last page** | 402.68 ms | 392.16 ms | 416.67 ms | 441.18 ms | 480.00 ms | 508.47 ms | 555.56 ms | 618.56 ms | 740.74 ms | 800.00 ms |
-| **t1, table, first page** | 60.98 ms | 23.93 ms | 24.86 ms | 24.84 ms | 23.97 ms | 24.92 ms | 24.58 ms | 25.06 ms | 26.64 ms | 24.74 ms |
-| **t1, table, last page** | 25.02 ms | 23.73 ms | 24.35 ms | 24.59 ms | 24.59 ms | 24.93 ms | 25.13 ms | 24.39 ms | 24.36 ms | 24.52 ms |
+| **t1, offset, first** | 33.92  | 33.67  | 33.50  | 32.95  | 34.05  | 33.90  | 33.78  | 33.94  | 34.05  | 35.84  |
+| **t1, offset, last** | 402.68  | 392.16  | 416.67  | 441.18  | 480.00  | 508.47  | 555.56  | 618.56  | 740.74  | 800.00  |
+| **t1, table, first** | 60.98  | 23.93  | 24.86  | 24.84  | 23.97  | 24.92  | 24.58  | 25.06  | 26.64  | 24.74  |
+| **t1, table, last** | 25.02  | 23.73  | 24.35  | 24.59  | 24.59  | 24.93  | 25.13  | 24.39  | 24.36  | 24.52  |
+| **t10, offset, first** |  |  |  |  |  |  |  |  |  |  |
+| **t10, offset, last** |  |  |  |  |  |  |  |  |  |  |
+| **t10, table, first** |  |  |  |  |  |  |  |  |  |  |
+| **t10, table, last** |  |  |  |  |  |  |  |  |  |  |
 
 <br/>
-![t1, OFFSET, first page](/charts/20160329064955.png?raw=true "t1, OFFSET, first page")
+![t1, offset, first page](/charts/20160329064955.png?raw=true "t1, offset, first page")
+
+<br/><br/>
+**1 000 000 records**
+
+<br/>
+Windseed
+
+| | c10 | c20 | c30 | c40 | c50 | c60 | c70 | c80 | c90 | c100 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| **t1, offset, first** |  |  |  |  |  |  |  |  |  |  |
+| **t1, offset, last** |  |  |  |  |  |  |  |  |  |  |
+| **t1, table, first** |  |  |  |  |  |  |  |  |  |  |
+| **t1, table, last** |  |  |  |  |  |  |  |  |  |  |
+| **t10, offset, first** |  |  |  |  |  |  |  |  |  |  |
+| **t10, offset, last** |  |  |  |  |  |  |  |  |  |  |
+| **t10, table, first** |  |  |  |  |  |  |  |  |  |  |
+| **t10, table, last** |  |  |  |  |  |  |  |  |  |  |
+
+<br/>
+Django
+
+| | c10 | c20 | c30 | c40 | c50 | c60 | c70 | c80 | c90 | c100 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| **t1, offset, first** |  |  |  |  |  |  |  |  |  |  |
+| **t1, offset, last** |  |  |  |  |  |  |  |  |  |  |
+| **t1, table, first** |  |  |  |  |  |  |  |  |  |  |
+| **t1, table, last** |  |  |  |  |  |  |  |  |  |  |
+| **t10, offset, first** |  |  |  |  |  |  |  |  |  |  |
+| **t10, offset, last** |  |  |  |  |  |  |  |  |  |  |
+| **t10, table, first** |  |  |  |  |  |  |  |  |  |  |
+| **t10, table, last** |  |  |  |  |  |  |  |  |  |  |
