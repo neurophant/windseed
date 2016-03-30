@@ -16,9 +16,9 @@ Extendable skeleton for developing web applications using [Tornado]
 
 ## Structure
 
-- **backups/** - folder for pg_dump to save dump using bash/backup.sh
+- **backups** - folder for pg_dump to save dump using bash/backup.sh
 
-- **bash/** - various bash scripts including project settings within environment
+- **bash** - various bash scripts including project settings within environment
              variables:
   - **backup.sh** - create pg_dump in backups folder
   - **env.sh** - contains all environment variables for project
@@ -28,21 +28,14 @@ Extendable skeleton for developing web applications using [Tornado]
   - **tests.sh** - run tests
   - **windseed.sh** - run application
 
-- **conf/** - config files for nginx/supervisor for dev and prod:
-  - **dev-nginx.conf** - nginx config for development
-  - **dev-supervisord.conf** - supervisor config for development (just to test
-                           everything works)
-  - **prod-nginx.conf** - nginx production config
-  - **prod-supervisord.conf** - supervisor config for production
+- **conf** - config files for nginx and supervisor for development and production
 
-- **djangotest/** - similar project in Django to compare performance
+- **static** - project static files, mainly Bootstrap 3, robots.txt, admin styles
 
-- **static/** - project static files, mainly Bootstrap 3, robots.txt, admin styles
+- **templates** - project templates
 
-- **templates/** - project templates
-
-- **windseed/** - windseed package:
-  - **apps/** - project's applications folder, each app within its folder has:
+- **windseed** - windseed package:
+  - **apps** - project's applications folder, each app within its folder has:
     - **handlers.py** - app handlers
     - **models.py** - app models
     - **tests.py** - app tests
@@ -55,7 +48,7 @@ Extendable skeleton for developing web applications using [Tornado]
     - **db.py** - postgresql database pool
     - **env.py** - environment variables from env.sh and paths
     - **urls.py** - project routes
-  - **utils/** - project utilities:
+  - **utils** - project utilities:
     - **superuser.py** - create superuser
     - **tables.py** - create tables
 
