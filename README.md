@@ -228,6 +228,24 @@ Django
 <br/>
 ![1 thread, offset pagination, last page](/charts/20160330120051.png?raw=true "1 thread, offset pagination, last page")
 
+<br/>
+![1 thread, table pagination, first page](/charts/20160330120639.png?raw=true "1 thread, table pagination, first page")
+
+<br/>
+![1 thread, table pagination, last page](/charts/20160330121024.png?raw=true "1 thread, table pagination, last page")
+
+<br/>
+![10 threads, offset pagination, first page](/charts/.png?raw=true "10 threads, offset pagination, first page")
+
+<br/>
+![10 threads, offset pagination, last page](/charts/.png?raw=true "10 threads, offset pagination, last page")
+
+<br/>
+![10 threads, table pagination, first page](/charts/.png?raw=true "10 threads, table pagination, first page")
+
+<br/>
+![10 threads, table pagination, last page](/charts/.png?raw=true "10 threads, table pagination, last page")
+
 <br/><br/>
 **100 000 records**
 
