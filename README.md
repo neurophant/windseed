@@ -40,11 +40,11 @@ Extendable skeleton for developing web applications using [Tornado]
     - **models.py** - app models
     - **tests.py** - app tests
     - **urls.py** - app URLs and routes
-  - **base/** - base classes:
+  - **base** - base classes:
     - **handler.py** - base handler class
     - **model.py** - base model class
     - **test.py** - base test class
-  - **settings/** - project settings
+  - **settings** - project settings
     - **db.py** - postgresql database pool
     - **env.py** - environment variables from env.sh and paths
     - **urls.py** - project routes
