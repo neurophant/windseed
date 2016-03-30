@@ -161,7 +161,7 @@ Testing with [wrk] (https://github.com/wg/wrk):
 - 10 000, 100 000, 1 000 000 records in table
 - 1 minute test with 1 minute timeout
 - 1 and 10 threads
-- From 10 to 100 connections with step of 10 connections
+- From 10 to 100 connections with 10 connections step
 - Pagination using SQL OFFSET and pagination using pagination table
 - First and last page
 - Sorted by name
