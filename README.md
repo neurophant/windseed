@@ -223,7 +223,7 @@ Django
 | **t10, table, last** | 18.54 | 18.29 | 18.30 | 15.43 | 16.89 | 17.40 | 17.52 | 17.49 | 17.79 | 17.65 |
 
 <br/>
-![1 thread, offset pagination, first page](/charts/20160330115515.png?raw=true "1 thread, offset pagination, first page")
+![1 thread](/charts/20160330115515.png?raw=true "1 thread")
 
 <br/>
 ![1 thread, offset pagination, last page](/charts/20160330120051.png?raw=true "1 thread, offset pagination, last page")
@@ -235,16 +235,16 @@ Django
 ![1 thread, table pagination, last page](/charts/20160330121024.png?raw=true "1 thread, table pagination, last page")
 
 <br/>
-![10 threads, offset pagination, first page](/charts/.png?raw=true "10 threads, offset pagination, first page")
+![10 threads, offset pagination, first page](/charts/20160330124517.png?raw=true "10 threads, offset pagination, first page")
 
 <br/>
-![10 threads, offset pagination, last page](/charts/.png?raw=true "10 threads, offset pagination, last page")
+![10 threads, offset pagination, last page](/charts/20160330124836.png?raw=true "10 threads, offset pagination, last page")
 
 <br/>
-![10 threads, table pagination, first page](/charts/.png?raw=true "10 threads, table pagination, first page")
+![10 threads, table pagination, first page](/charts/20160330125228.png?raw=true "10 threads, table pagination, first page")
 
 <br/>
-![10 threads, table pagination, last page](/charts/.png?raw=true "10 threads, table pagination, last page")
+![10 threads, table pagination, last page](/charts/20160330125539.png?raw=true "10 threads, table pagination, last page")
 
 <br/><br/>
 **100 000 records**
