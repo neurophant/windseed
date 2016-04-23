@@ -4,6 +4,8 @@ Extendable skeleton for developing web applications using [Tornado]
 (https://github.com/tornadoweb/tornado) and [peewee]
 (https://github.com/coleifer/peewee)
 
+For its implementation using [aiohttp](https://github.com/KeepSafe/aiohttp) refer to [aiowing](https://github.com/embali/aiowing)
+
 
 ## Prerequisites
 
